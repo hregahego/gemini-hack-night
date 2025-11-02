@@ -4,6 +4,7 @@ from google.genai import types
 import os
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
+import urllib3
 from pydantic import BaseModel
 import json
 
@@ -38,7 +39,9 @@ def get_recipe_links(dish: str):
 
     cleaned_json_string = str(response.text).strip("\n").strip("```json").strip("```")
     data = json.loads(cleaned_json_string)
-    print(data['recipe_links'])
+    
+    return data['recipe_links']
 
-    return {"links": data['recipe_links']}
+def get_page_body(url: str):
+    pass
 
