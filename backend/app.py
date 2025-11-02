@@ -42,5 +42,3 @@ def get_recipe_links(dish: str):
 
     return {"links": data['recipe_links']}
 
-
-
