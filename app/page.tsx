@@ -1,4 +1,5 @@
 import ImageUpload from '../component/ImageUpload';
+import DietaryRestrictions from '../component/DietaryRestrictions';
 
 export default function BlankTitlePage() {
   return (
@@ -11,6 +12,7 @@ export default function BlankTitlePage() {
           BiteRight
         </h1>
         <ImageUpload />
+        <DietaryRestrictions />
       </div>
     </div>
   );
