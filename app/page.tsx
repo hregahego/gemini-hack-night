@@ -1,5 +1,6 @@
 import ImageUpload from '../component/ImageUpload';
 import DietaryRestrictions from '../component/DietaryRestrictions';
+import GoButton from '@/component/GoButton';
 
 export default function BlankTitlePage() {
   return (
@@ -13,6 +14,13 @@ export default function BlankTitlePage() {
         </h1>
         <ImageUpload />
         <DietaryRestrictions />
+        <div className="pt-4">
+          <GoButton
+            to="/blank"
+            label="Find"
+            className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+          />
+        </div>
       </div>
     </div>
   );
