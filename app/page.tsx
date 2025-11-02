@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { ChefHat, CookingPot, Timer, Utensils } from 'lucide-react'; // Assuming lucide-react is available, or you can use inline SVGs
 
