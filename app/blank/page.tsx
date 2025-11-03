@@ -162,29 +162,27 @@ export default function BlankPage() {
 
     const fetchResults = async () => {
       try {
-        // Mock data for testing
-        const mockData: APIResponse = {
-          "https://www.example.com/product1": {
-            contains_allergens: true,
-            which_allergens: ["peanuts", "tree nuts"],
-            evidence: "Product contains peanut butter and almond extract in ingredients list"
-          },
-          "https://www.example.com/product2": {
-            contains_allergens: false,
-            which_allergens: [],
-            evidence: "No common allergens found in ingredient list"
-          },
-          "https://www.example.com/product3": {
-            contains_allergens: true,
-            which_allergens: ["milk", "soy"],
-            evidence: "Contains milk powder and soy lecithin as listed ingredients"
-          }
-        };
+        const storedImageUrl = sessionStorage.getItem('imageUrl');
+        const storedRestrictions = sessionStorage.getItem('dietaryRestrictions');
+        const restrictions = storedRestrictions ? JSON.parse(storedRestrictions) : [];
 
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        setResults(mockData);
+        const response = await fetch('http://127.0.0.1:8000/runcheck/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            image_url: storedImageUrl,
+            restrictions: restrictions,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setResults(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       }
@@ -264,31 +262,32 @@ export default function BlankPage() {
             <h2 className="text-xl font-semibold mb-4 break-all text-black">{url}</h2>
             <div className="space-y-3">
               <div className={`text-lg font-medium flex items-center gap-2 ${
-                result.contains_allergens ? 'text-red-600' : 'text-green-600'
+                result.contains_allergens ? 'text-green-600' : 'text-red-600'
               }`}>
                 {result.contains_allergens ? (
-                  <>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    Contains Allergens
-                  </>
-                ) : (
                   <>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     No Allergens Detected
                   </>
+                ) : (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Allergens Detected
+                  </>
                 )}
               </div>
-              {result.which_allergens.length > 0 && (
+              {(
                 <div>
                   <p className="font-medium text-black">Allergens found:</p>
                   <ul className="list-disc list-inside pl-4 text-black">
                     {result.which_allergens.map((allergen, index) => (
-                      <li key={index} className="text-black">{allergen}</li>
-                    ))}
+                        <li key={index} className="text-black">{allergen}</li>
+                    )) 
+                    }
                   </ul>
                 </div>
               )}

@@ -223,23 +223,6 @@ export default function BlankTitlePage() {
         </h1>
         <ImageUpload onImageUpload={handleImageUpload} />
         
-        {/* Display the COMPLETE image URL */}
-        {imageInfo && (
-          <div className="w-full max-w-4xl bg-white p-4 rounded-lg shadow-md">
-            <p className="text-sm font-semibold text-gray-700 mb-2">Complete Image URL:</p>
-            <div className="bg-gray-100 p-3 rounded border border-gray-300 overflow-auto max-h-96">
-              <p className="text-xs break-all font-mono whitespace-pre-wrap">
-                {imageInfo.url}
-              </p>
-            </div>
-            <button
-              onClick={() => navigator.clipboard.writeText(imageInfo.url)}
-              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
-            >
-              Copy to Clipboard
-            </button>
-          </div>
-        )}
         
         <DietaryRestrictions onRestrictionsChange={handleRestrictionsChange} />
         
