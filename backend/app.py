@@ -98,7 +98,7 @@ def check_individual_page(source, restrictions, dict, link):
             "response_schema": RestrictionsResponse,
         }
     )
-    dict[link] = json.loads(response.text)
+    dict[link] = json.loads(str(response.text))
 
 def identify_food(b64_string: str):
     class Response(BaseModel):
